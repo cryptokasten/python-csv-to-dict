@@ -1,0 +1,53 @@
+#+TITLE: Python: CSV to dict
+#+PROPERTY: header-args:sh :session *shell python-csv-to-dict sh* :results silent raw
+#+PROPERTY: header-args:python :session *shell python-csv-to-dict python* :results silent raw
+#+OPTIONS: ^:nil
+
+** Example data
+
+Input
+
+#+BEGIN_SRC csv :tangle data/input.csv
+key1,value1
+key2,value2
+#+END_SRC
+
+Output
+
+#+BEGIN_SRC js
+{
+    "key1": "value1",
+    "key2": "value2"
+}
+#+END_SRC
+
+** Imports
+
+#+BEGIN_SRC python :tangle src/csv_to_dict.py
+import json
+import csv
+#+END_SRC
+
+** Load csv
+
+#+BEGIN_SRC python :tangle src/csv_to_dict.py
+f = open("data/input.csv", "rt")
+reader = csv.reader(f)
+#+END_SRC
+
+** Read
+
+#+BEGIN_SRC python :tangle src/csv_to_dict.py
+doc = {}
+for row in reader:
+    key, value = row[0], row[1]
+    doc[key] = value
+#+END_SRC
+
+** Write json
+
+#+BEGIN_SRC python :tangle src/csv_to_dict.py
+f = open("data/output.json", "wt")
+f.write(json.dumps(doc, indent=4))
+f.close()
+#+END_SRC
